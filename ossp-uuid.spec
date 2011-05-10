@@ -1,22 +1,10 @@
-%if %mdkversion < 201010
-%define pgsql 1
-%else
-%define pgsql 0
-%endif
-
-# commandline overrides:
-# rpm -ba|--rebuild --with 'xxx'
-%{?_with_pgsql: %{expand: %%global pgsql 1}}
-%{?_without_pgsql: %{expand: %%global pgsql 0}}
-
 %define oname	ossp_uuid
-
 Name:		ossp-uuid
 Version:	1.6.2
 Release:	7
-Summary:    	OSSP uuid is a ISO-C:1999 application programming interface
-License:    	GPLv2+
-Group:      	Development/C
+Summary:	OSSP uuid is a ISO-C:1999 application programming interface
+License:	GPLv2+
+Group:		Development/C
 URL:		http://www.ossp.org/pkg/lib/uuid/
 Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
 Patch0:		uuid-1.6.2-fix-perl-install.patch
@@ -24,9 +12,8 @@ Patch1:		uuid-1.6.2-fix-php-install.patch
 Patch2:		uuid-1.6.2-fix-php-link.patch
 Patch3:		uuid-1.6.2-ossp.patch
 Patch4:		uuid-1.6.2-fix-php-test-module-loading.patch
-%if %{pgsql}
+Patch5:		uuid-1.6.2-postgresql-install-fix.patch
 BuildRequires:	postgresql-devel
-%endif
 BuildRequires:	perl-devel
 BuildRequires:	php-devel
 BuildRequires:	php-cli
@@ -48,8 +35,8 @@ and Perl Data::UUID APIs
 %define	oldname	%mklibname %{oname} %{major}
 
 %package -n     %{libname}
-Summary:        Main library for ossp-uuid
-Group:          System/Libraries
+Summary:	Main library for ossp-uuid
+Group:		System/Libraries
 %rename		%{oldname}
 
 %description -n %{libname}
@@ -67,11 +54,11 @@ and Perl Data::UUID APIs
 %define	oldcxx	%mklibname %{oname}++ %{major}
 
 %package -n     %{libcxx}
-Summary:        C++ library for ossp-uuid
-Group:          System/Libraries
+Summary:	C++ library for ossp-uuid
+Group:		System/Libraries
 %rename		%{oldcxx}
 
-%description -n %{libcxx}
+%description -n	%{libcxx}
 OSSP uuid is a ISO-C:1999 application programming interface (API)
 and corresponding command line interface (CLI) for the generation of
 DCE 1.1, ISO/IEC 11578:1996 and IETF RFC-4122 compliant Universally
@@ -86,11 +73,11 @@ and Perl Data::UUID APIs
 %define	olddce	%mklibname %{oname}_dce %{major}
 
 %package -n     %{libdce}
-Summary:        DCE library for ossp-uuid
-Group:          System/Libraries
+Summary:	DCE library for ossp-uuid
+Group:		System/Libraries
 %rename		%{olddce}
 
-%description -n %{libdce}
+%description -n	%{libdce}
 OSSP uuid is a ISO-C:1999 application programming interface (API)
 and corresponding command line interface (CLI) for the generation of
 DCE 1.1, ISO/IEC 11578:1996 and IETF RFC-4122 compliant Universally
@@ -102,7 +89,7 @@ PHP:4/5. Optional backward compatibility exists for the ISO-C DCE-1.1
 and Perl Data::UUID APIs
 
 %define devname	%mklibname %{name} -d
-%define	devold	%mklibname %{fname} -d
+%define	devold	%mklibname %{oname} -d
 
 %package -n	%{devname}
 Summary:	Header files for the ossp-uuid library
@@ -139,12 +126,12 @@ Group:		Development/PHP
 %description -n	php-OSSP-uuid
 This package contains php bindings for %{name}.
 
-%if %{pgsql}
-%package -n	%{libname}-pgsql
+%package -n	postgresql-OSSP-uuid
 Summary:	Postgresql library for ossp-uuid
 Group:		System/Libraries
+%rename		%{libname}-pgsql
 
-%description -n	%{libname}-pgsql
+%description -n	postgresql-OSSP-uuid
 OSSP uuid is a ISO-C:1999 application programming interface (API)
 and corresponding command line interface (CLI) for the generation of
 DCE 1.1, ISO/IEC 11578:1996 and IETF RFC-4122 compliant Universally
@@ -154,7 +141,6 @@ Unique Identifier (UUID). It supports DCE 1.1 variant UUIDs of version
 API bindings are provided for the languages ISO-C++:1998, Perl:5 and
 PHP:4/5. Optional backward compatibility exists for the ISO-C DCE-1.1
 and Perl Data::UUID APIs
-%endif
 
 %prep
 %setup -q -n uuid-%{version}
@@ -163,17 +149,15 @@ and Perl Data::UUID APIs
 %patch2 -p0
 %patch3 -p1 -b .ossp~
 %patch4 -p1 -b .php_test~
+%patch5 -p1 -b .pgsql~
 
 %build
 export PHP_ACLOCAL=aclocal
-%configure2_5x \
-%if %{pgsql}
-    --with-pgsql \
-%endif
-    --with-perl \
-    --with-php \
-    --with-cxx \
-    --with-dce
+%configure2_5x	--with-pgsql \
+		--with-perl \
+		--with-php \
+		--with-cxx \
+		--with-dce
 %make
 
 %check
@@ -181,23 +165,14 @@ make check
 
 %install
 %makeinstall_std PHP_EXTENSIONDIR=%{_libdir}/php/extensions
-
-%if %{pgsql}
-%post -n  %{libname}-pgsql
-/bin/ln -s %{_libdir}/postgresql/uuid.so %{_libdir}/postgresql/uuid-ossp.so
-
-%postun -n  %{libname}-pgsql
-/bin/rm -f %{_libdir}/postgresql/uuid-ossp.so
-%endif
+%makeinstall_std -C pgsql 
+ln -s ossp-uuid.so %{buildroot}%{_libdir}/postgresql/uuid.so 
+ln -s uuid.sql %{buildroot}%{_datadir}/postgresql/ossp-uuid.sql
 
 %files
 %doc OVERVIEW
 %{_bindir}/uuid
 %{_mandir}/man1/uuid.1*
-#if %{pgsql}
-#exclude %{_defaultdocdir}/lib64ossp_uuid16-pgsql/OVERVIEW
-#exclude %{_defaultdocdir}/lib64ossp_uuid16/OVERVIEW
-#endif
 
 %files -n %{libname}
 %{_libdir}/libossp-uuid.so.%{major}*
@@ -208,7 +183,7 @@ make check
 %files -n %{libdce}
 %{_libdir}/libossp-uuid_dce.so.%{major}*
 
-%files  -n %{devname}
+%files -n %{devname}
 %{_libdir}/pkgconfig/ossp-uuid.pc
 %{_includedir}/uuid.h
 %{_includedir}/uuid++.hh
@@ -237,8 +212,8 @@ make check
 %{_libdir}/php/extensions/ossp-uuid.so
 %{_libdir}/php/extensions/uuid.php
 
-%if %{pgsql}
-%files -n %{libname}-pgsql
+%files -n postgresql-OSSP-uuid
+%{_libdir}/postgresql/uuid.so
 %{_libdir}/postgresql/ossp-uuid.so
-%{_usr}/share/postgresql/ossp-uuid.sql
-%endif
+%{_datadir}/postgresql/uuid.sql
+%{_datadir}/postgresql/ossp-uuid.sql
