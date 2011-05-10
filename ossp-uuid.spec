@@ -12,7 +12,6 @@ Patch1:		uuid-1.6.2-fix-php-install.patch
 Patch2:		uuid-1.6.2-fix-php-link.patch
 Patch3:		uuid-1.6.2-ossp.patch
 Patch4:		uuid-1.6.2-fix-php-test-module-loading.patch
-Patch5:		uuid-1.6.2-postgresql-install-fix.patch
 BuildRequires:	postgresql-devel
 BuildRequires:	perl-devel
 BuildRequires:	php-devel
@@ -149,7 +148,6 @@ and Perl Data::UUID APIs
 %patch2 -p0
 %patch3 -p1 -b .ossp~
 %patch4 -p1 -b .php_test~
-%patch5 -p1 -b .pgsql~
 
 %build
 export PHP_ACLOCAL=aclocal
