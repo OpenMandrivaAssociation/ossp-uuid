@@ -9,6 +9,8 @@
 %{?_with_pgsql: %{expand: %%global pgsql 1}}
 %{?_without_pgsql: %{expand: %%global pgsql 0}}
 
+%define oname	ossp_uuid
+
 Name:		ossp-uuid
 Version:	1.6.2
 Release:	7
@@ -28,6 +30,7 @@ BuildRequires:	postgresql-devel
 BuildRequires:	perl-devel
 BuildRequires:	php-devel
 BuildRequires:	php-cli
+%rename		%{oname}
 
 %description
 OSSP uuid is a ISO-C:1999 application programming interface (API)
@@ -41,7 +44,6 @@ PHP:4/5. Optional backward compatibility exists for the ISO-C DCE-1.1
 and Perl Data::UUID APIs
 
 %define	major	16
-%define oname	ossp_uuid
 %define libname %mklibname %{name} %{major}
 %define	oldname	%mklibname %{oname} %{major}
 
@@ -109,7 +111,6 @@ Requires:	%{libname} = %{version}
 Requires:	%{libcxx} = %{version}
 Requires:	%{libdce} = %{version}
 Provides:	%{name}-devel = %{version}-%{release}
-Conflicts:	libuuid-devel
 %rename		%{devold}
 
 %description -n	%{devname}
