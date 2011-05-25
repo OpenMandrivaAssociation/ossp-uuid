@@ -1,7 +1,7 @@
 %define oname	ossp_uuid
 Name:		ossp-uuid
 Version:	1.6.2
-Release:	7
+Release:	8
 Summary:	OSSP uuid is a ISO-C:1999 application programming interface
 License:	GPLv2+
 Group:		Development/C
@@ -151,7 +151,8 @@ and Perl Data::UUID APIs
 
 %build
 export PHP_ACLOCAL=aclocal
-%configure2_5x	--with-pgsql \
+%configure2_5x	--includedir=%{_includedir}/ossp-uuid \
+		--with-pgsql \
 		--with-perl \
 		--with-php \
 		--with-cxx \
@@ -183,9 +184,10 @@ ln -s uuid.sql %{buildroot}%{_datadir}/postgresql/ossp-uuid.sql
 
 %files -n %{devname}
 %{_libdir}/pkgconfig/ossp-uuid.pc
-%{_includedir}/uuid.h
-%{_includedir}/uuid++.hh
-%{_includedir}/uuid_dce.h
+%dir %{_includedir}/ossp-uuid
+%{_includedir}/ossp-uuid/uuid.h
+%{_includedir}/ossp-uuid/uuid++.hh
+%{_includedir}/ossp-uuid/uuid_dce.h
 %{_bindir}/uuid-config
 %{_libdir}/libossp-uuid.so
 %{_libdir}/libossp-uuid.a
