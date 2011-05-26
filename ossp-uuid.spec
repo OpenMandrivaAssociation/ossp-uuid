@@ -1,3 +1,16 @@
+# needed for rpm53
+%bcond_with bootstrap
+
+%if %{with bootstrap}
+%bcond_with perl
+%bcond_with php
+%bcond_with postgresql
+%else
+%bcond_without perl
+%bcond_without php
+%bcond_without postgresql
+%endif
+
 %define oname	ossp_uuid
 Name:		ossp-uuid
 Version:	1.6.2
@@ -12,10 +25,16 @@ Patch1:		uuid-1.6.2-fix-php-install.patch
 Patch2:		uuid-1.6.2-fix-php-link.patch
 Patch3:		uuid-1.6.2-ossp.patch
 Patch4:		uuid-1.6.2-fix-php-test-module-loading.patch
+%if %{with postgresql}
 BuildRequires:	postgresql-devel
+%endif
+%if %{with perl}
 BuildRequires:	perl-devel
+%endif
+%if %{with php}
 BuildRequires:	php-devel
 BuildRequires:	php-cli
+%endif
 %rename		%{oname}
 
 %description
@@ -111,20 +130,25 @@ PHP:4/5. Optional backward compatibility exists for the ISO-C DCE-1.1
 and Perl Data::UUID APIs
 These are .h files.
 
+%if %{with perl}
 %package -n	perl-OSSP-uuid
 Summary:	Perl bindings for ossp-uuid
 Group:		Development/Perl
 
 %description -n	perl-OSSP-uuid
 This package contains perl bindings for %{name}.
+%endif
 
+%if %{with php}
 %package -n	php-OSSP-uuid
 Summary:	PHP bindings for ossp-uuid
 Group:		Development/PHP
 
 %description -n	php-OSSP-uuid
 This package contains php bindings for %{name}.
+%endif
 
+%if %{with postgresql}
 %package -n	postgresql-OSSP-uuid
 Summary:	Postgresql library for ossp-uuid
 Group:		System/Libraries
@@ -140,6 +164,7 @@ Unique Identifier (UUID). It supports DCE 1.1 variant UUIDs of version
 API bindings are provided for the languages ISO-C++:1998, Perl:5 and
 PHP:4/5. Optional backward compatibility exists for the ISO-C DCE-1.1
 and Perl Data::UUID APIs
+%endif
 
 %prep
 %setup -q -n uuid-%{version}
@@ -152,9 +177,15 @@ and Perl Data::UUID APIs
 %build
 export PHP_ACLOCAL=aclocal
 %configure2_5x	--includedir=%{_includedir}/ossp-uuid \
+%if %{with postgresql}
 		--with-pgsql \
+%endif
+%if %{with perl}
 		--with-perl \
+%endif
+%if %{with php}
 		--with-php \
+%endif
 		--with-cxx \
 		--with-dce
 %make
@@ -164,9 +195,11 @@ make check
 
 %install
 %makeinstall_std PHP_EXTENSIONDIR=%{_libdir}/php/extensions
+%if %{with postgresql}
 %makeinstall_std -C pgsql 
 ln -s ossp-uuid.so %{buildroot}%{_libdir}/postgresql/uuid.so 
 ln -s uuid.sql %{buildroot}%{_datadir}/postgresql/ossp-uuid.sql
+%endif
 
 %files
 %doc OVERVIEW
@@ -203,17 +236,23 @@ ln -s uuid.sql %{buildroot}%{_datadir}/postgresql/ossp-uuid.sql
 %{_mandir}/man3/ossp-uuid.3*
 %{_mandir}/man3/ossp-uuid++.3*
 
+%if %{with perl}
 %files -n perl-OSSP-uuid
 %{perl_vendorarch}/OSSP
 %{perl_vendorarch}/auto/OSSP
 %{_mandir}/man3/OSSP::uuid.3*
+%endif
 
+%if %{with php}
 %files -n php-OSSP-uuid
 %{_libdir}/php/extensions/ossp-uuid.so
 %{_libdir}/php/extensions/uuid.php
+%endif
 
+%if %{with postgresql}
 %files -n postgresql-OSSP-uuid
 %{_libdir}/postgresql/uuid.so
 %{_libdir}/postgresql/ossp-uuid.so
 %{_datadir}/postgresql/uuid.sql
 %{_datadir}/postgresql/ossp-uuid.sql
+%endif
