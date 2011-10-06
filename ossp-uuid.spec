@@ -14,7 +14,7 @@
 %define oname	ossp_uuid
 Name:		ossp-uuid
 Version:	1.6.2
-Release:	8
+Release:	9
 Summary:	OSSP uuid is a ISO-C:1999 application programming interface
 License:	GPLv2+
 Group:		Development/C
