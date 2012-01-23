@@ -201,6 +201,9 @@ ln -s ossp-uuid.so %{buildroot}%{_libdir}/postgresql/uuid.so
 ln -s uuid.sql %{buildroot}%{_datadir}/postgresql/ossp-uuid.sql
 %endif
 
+# cleanup
+rm -f %{buildroot}%{_libdir}/*.*a
+
 %files
 %doc OVERVIEW
 %{_bindir}/uuid
@@ -223,15 +226,8 @@ ln -s uuid.sql %{buildroot}%{_datadir}/postgresql/ossp-uuid.sql
 %{_includedir}/ossp-uuid/uuid_dce.h
 %{_bindir}/uuid-config
 %{_libdir}/libossp-uuid.so
-%{_libdir}/libossp-uuid.a
-%{_libdir}/libossp-uuid.la
 %{_libdir}/libossp-uuid++.so
-%{_libdir}/libossp-uuid++.a
-%{_libdir}/libossp-uuid++.la
 %{_libdir}/libossp-uuid_dce.so
-%{_libdir}/libossp-uuid_dce.a
-%{_libdir}/libossp-uuid_dce.la
-
 %{_mandir}/man1/uuid-config.1*
 %{_mandir}/man3/ossp-uuid.3*
 %{_mandir}/man3/ossp-uuid++.3*
