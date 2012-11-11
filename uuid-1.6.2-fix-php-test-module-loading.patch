@@ -1,0 +1,11 @@
+--- uuid-1.6.2/php/Makefile.local.php_test~	2011-03-24 22:46:14.362494010 +0100
++++ uuid-1.6.2/php/Makefile.local	2011-03-24 22:48:30.216494010 +0100
+@@ -42,7 +42,7 @@ build: config
+ 
+ test: build
+ 	@version=`$(PHP)-config --version | sed -e 's;^\([0-9]\).*$$;\1;'`; \
+-	$(PHP) -q -d "safe_mode=0" -d "extension_dir=./" uuid.ts $$version
++	$(PHP) --no-php-ini -q -d "safe_mode=0" -d "extension_dir=./modules" -d "extension=uuid.so" uuid.ts $$version
+ 
+ install: build
+ 	@version=`$(PHP)-config --version | sed -e 's;^\([0-9]\).*$$;\1;'`; extdir="$(EXTDIR)"; \

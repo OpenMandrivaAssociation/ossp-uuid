@@ -1,0 +1,12 @@
+diff -Naur -x '*~' uuid-1.6.2/Makefile.in uuid-1.6.2-fix-php-install/Makefile.in
+--- uuid-1.6.2/Makefile.in	2008-03-08 19:31:40.000000000 +0100
++++ uuid-1.6.2-fix-php-install/Makefile.in	2010-12-15 23:48:49.000000000 +0100
+@@ -259,7 +259,7 @@
+ 	    (cd $(S)/perl && $(MAKE) $(MFLAGS) install DESTDIR=$(DESTDIR)); \
+ 	fi
+ 	-@if [ ".$(WITH_PHP)" = .yes ]; then \
+-	    (cd $(S)/php && $(MAKE) $(MFLAGS) -f Makefile.local install EXTDIR=$(prefix)/lib/php PHP=$(PHP) DESTDIR=$(DESTDIR)); \
++	    (cd $(S)/php && $(MAKE) $(MFLAGS) -f Makefile.local install EXTDIR=$(PHP_EXTENSIONDIR) PHP=$(PHP) DESTDIR=$(DESTDIR)); \
+ 	fi
+ 	-@if [ ".$(WITH_PGSQL)" = .yes ]; then \
+ 	    (cd $(S)/pgsql && $(MAKE) $(MFLAGS) install DESTDIR=$(DESTDIR) PG_CONFIG=$(PG_CONFIG)); \
