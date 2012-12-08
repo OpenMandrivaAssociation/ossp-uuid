@@ -1,0 +1,12 @@
+diff -Naur uuid-1.6.2.orig/php/uuid.c uuid-1.6.2/php/uuid.c
+--- uuid-1.6.2.orig/php/uuid.c	2012-09-11 15:50:05.164155744 +0400
++++ uuid-1.6.2/php/uuid.c	2012-09-11 15:50:36.529180982 +0400
+@@ -496,7 +496,7 @@
+ }
+ 
+ /* module function table */
+-static function_entry uuid_functions[] = {
++static zend_function_entry uuid_functions[] = {
+     PHP_FE(uuid_create,  NULL)
+     PHP_FE(uuid_destroy, NULL)
+     PHP_FE(uuid_clone,   NULL)
