@@ -14,7 +14,7 @@
 %define oname	ossp_uuid
 Name:		ossp-uuid
 Version:	1.6.2
-Release:	10
+Release:	11
 Summary:	OSSP uuid is a ISO-C:1999 application programming interface
 License:	GPLv2+
 Group:		Development/C
@@ -252,61 +252,4 @@ ln -s uuid.sql %{buildroot}%{_datadir}/postgresql/ossp-uuid.sql
 %{_datadir}/postgresql/uuid.sql
 %{_datadir}/postgresql/ossp-uuid.sql
 %endif
-
-
-%changelog
-* Mon Jan 23 2012 Oden Eriksson <oeriksson@mandriva.com> 1.6.2-10
-+ Revision: 766782
-- various fixes
-- rebuilt for perl-5.14.2
-
-* Thu Oct 06 2011 Oden Eriksson <oeriksson@mandriva.com> 1.6.2-9
-+ Revision: 703272
-- rebuilt due to package loss
-
-  + Matthew Dawkins <mattydaw@mandriva.org>
-    - added bootstrap bcond, crazy to expect php and postgresql just to build rpm53
-
-* Wed May 25 2011 Per Øyvind Karlsen <peroyvind@mandriva.org> 1.6.2-8
-+ Revision: 678999
-- place headers in their own sub-directory to prevent any possible conflicts
-
-* Tue May 10 2011 Per Øyvind Karlsen <peroyvind@mandriva.org> 1.6.2-7
-+ Revision: 673154
-- fix permissions and installation of libraries so that we get them all stripped
-- fix postgresql plugin
-- remove conflicts with libuiid-devel now that it's header path has changed
-- rename package to match library name
-
-* Fri Apr 22 2011 Per Øyvind Karlsen <peroyvind@mandriva.org> 1.6.2-6
-+ Revision: 656711
-- add dependencies on the c++ & dce libraries for -devel packages
-
-* Thu Mar 24 2011 Per Øyvind Karlsen <peroyvind@mandriva.org> 1.6.2-5
-+ Revision: 648404
-- fix php test suite and enable regression checks
-- build dce library
-- enable build of c++ library
-- use correct group for perl & php module
-- perform some cosmetics and cleanups
-- drop bogus provides
-- drop ancient ldconfig scriptlets
-- fix unique library soname and pkgconfig file (P3)
-
-* Sat Jan 01 2011 Funda Wang <fwang@mandriva.org> 1.6.2-4mdv2011.0
-+ Revision: 627159
-- fix link of php binding
-- use aclocal instead of its 1.7 version for phpize
-
-* Thu Dec 16 2010 Guillaume Rousse <guillomovitch@mandriva.org> 1.6.2-3mdv2011.0
-+ Revision: 622424
-- add perl and php bindings
-
-* Tue Jul 13 2010 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.6.2-2mdv2011.0
-+ Revision: 551531
-- bump release
-
-* Sat May 22 2010 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.6.2-1mdv2011.0
-+ Revision: 545712
-- import ossp_uuid
 
