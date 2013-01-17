@@ -14,7 +14,7 @@
 %define oname	ossp_uuid
 Name:		ossp-uuid
 Version:	1.6.2
-Release:	11
+Release:	12
 Summary:	OSSP uuid is a ISO-C:1999 application programming interface
 License:	GPLv2+
 Group:		Development/C
@@ -204,13 +204,17 @@ ln -s ossp-uuid.so %{buildroot}%{_libdir}/postgresql/uuid.so
 ln -s uuid.sql %{buildroot}%{_datadir}/postgresql/ossp-uuid.sql
 %endif
 
+mkdir %{buildroot}/%{_lib}
+mv %{buildroot}%{_libdir}/libossp-uuid.so.%{major}* %{buildroot}/%{_lib}
+ln -srf %{buildroot}/%{_lib}/libossp-uuid.so.%{major}.*.* %{buildroot}%{_libdir}/libossp-uuid.so
+
 %files
 %doc OVERVIEW
 %{_bindir}/uuid
 %{_mandir}/man1/uuid.1*
 
 %files -n %{libname}
-%{_libdir}/libossp-uuid.so.%{major}*
+/%{_lib}/libossp-uuid.so.%{major}*
 
 %files -n %{libcxx}
 %{_libdir}/libossp-uuid++.so.%{major}*
@@ -252,4 +256,3 @@ ln -s uuid.sql %{buildroot}%{_datadir}/postgresql/ossp-uuid.sql
 %{_datadir}/postgresql/uuid.sql
 %{_datadir}/postgresql/ossp-uuid.sql
 %endif
-
