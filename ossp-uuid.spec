@@ -1,5 +1,6 @@
 # needed for rpm53
 %bcond_with bootstrap
+%bcond_with crosscompile
 
 %if %{with bootstrap}
 %bcond_with perl
@@ -26,6 +27,10 @@ Patch2:		uuid-1.6.2-fix-php-link.patch
 Patch3:		uuid-1.6.2-ossp.patch
 Patch4:		uuid-1.6.2-fix-php-test-module-loading.patch
 Patch5:         uuid-1.6.2-php-54x.patch
+#We don't want anything stripped
+#Upstream-Status: Inappropriate [no upstream]
+#The project appears to no longer be accepting changes.
+Patch6:		uuid-nostrip.patch
 %if %{with postgresql}
 BuildRequires:	postgresql-devel
 %endif
@@ -175,9 +180,17 @@ and Perl Data::UUID APIs
 %patch3 -p1 -b .ossp~
 %patch4 -p1 -b .php_test~
 %patch5 -p1 -b .php54~
+%patch6 -p1 -b .strip
 
 %build
 export PHP_ACLOCAL=aclocal
+%if %{with crosscompile}
+export ac_cv_va_copy=yes
+export ac_cv_func_clock_gettime=yes
+export ac_cv_func_getifaddrs=yes
+export ac_cv_func_gettimeofday=yes
+%endif
+
 %configure2_5x	--includedir=%{_includedir}/ossp-uuid \
 %if %{with postgresql}
 		--with-pgsql \
