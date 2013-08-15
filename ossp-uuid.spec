@@ -13,20 +13,21 @@
 %endif
 
 %define oname	ossp_uuid
+
+Summary:	OSSP uuid is a ISO-C:1999 application programming interface
 Name:		ossp-uuid
 Version:	1.6.2
 Release:	13
-Summary:	OSSP uuid is a ISO-C:1999 application programming interface
 License:	GPLv2+
 Group:		Development/C
-URL:		http://www.ossp.org/pkg/lib/uuid/
+Url:		http://www.ossp.org/pkg/lib/uuid/
 Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
 Patch0:		uuid-1.6.2-fix-perl-install.patch
 Patch1:		uuid-1.6.2-fix-php-install.patch
 Patch2:		uuid-1.6.2-fix-php-link.patch
 Patch3:		uuid-1.6.2-ossp.patch
 Patch4:		uuid-1.6.2-fix-php-test-module-loading.patch
-Patch5:         uuid-1.6.2-php-54x.patch
+Patch5:		uuid-1.6.2-php-54x.patch
 #We don't want anything stripped
 #Upstream-Status: Inappropriate [no upstream]
 #The project appears to no longer be accepting changes.
@@ -173,14 +174,8 @@ and Perl Data::UUID APIs
 %endif
 
 %prep
-%setup -q -n uuid-%{version}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p0
-%patch3 -p1 -b .ossp~
-%patch4 -p1 -b .php_test~
-%patch5 -p1 -b .php54~
-%patch6 -p1 -b .strip
+%setup -qn uuid-%{version}
+%apply_patches
 
 %build
 export PHP_ACLOCAL=aclocal
@@ -191,19 +186,20 @@ export ac_cv_func_getifaddrs=yes
 export ac_cv_func_gettimeofday=yes
 %endif
 
-%configure2_5x	--includedir=%{_includedir}/ossp-uuid \
+%configure2_5x \
+	--includedir=%{_includedir}/ossp-uuid \
 %if %{with postgresql}
-		--with-pgsql \
+	--with-pgsql \
 %endif
 %if %{with perl}
-		--with-perl \
+	--with-perl \
 %endif
 %if %{with php}
-		--with-php \
+	--with-php \
 %endif
-		--with-cxx \
-		--with-dce \
-		--disable-static
+	--with-cxx \
+	--with-dce \
+	--disable-static
 %make
 
 %check
