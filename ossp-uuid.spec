@@ -176,6 +176,7 @@ and Perl Data::UUID APIs
 %prep
 %setup -qn uuid-%{version}
 %apply_patches
+autoreconf -fiv
 
 %build
 export PHP_ACLOCAL=aclocal
