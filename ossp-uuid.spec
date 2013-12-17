@@ -32,6 +32,7 @@ Patch5:		uuid-1.6.2-php-54x.patch
 #Upstream-Status: Inappropriate [no upstream]
 #The project appears to no longer be accepting changes.
 Patch6:		uuid-nostrip.patch
+Patch7:		uuid-aarch64.patch
 %if %{with postgresql}
 BuildRequires:	postgresql-devel
 %endif
@@ -176,7 +177,6 @@ and Perl Data::UUID APIs
 %prep
 %setup -qn uuid-%{version}
 %apply_patches
-autoreconf -fiv
 
 %build
 export PHP_ACLOCAL=aclocal
