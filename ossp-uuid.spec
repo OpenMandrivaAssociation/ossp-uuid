@@ -209,6 +209,8 @@ make check
 %install
 %makeinstall_std PHP_EXTENSIONDIR=%{_libdir}/php/extensions
 %if %{with postgresql}
+mkdir -p %{buildroot}/%{_libdir}/postgresql/
+mkdir -p %{buildroot}/%{_datadir}/postgresql/
 %makeinstall_std -C pgsql 
 ln -s ossp-uuid.so %{buildroot}%{_libdir}/postgresql/uuid.so 
 ln -s uuid.sql %{buildroot}%{_datadir}/postgresql/ossp-uuid.sql
