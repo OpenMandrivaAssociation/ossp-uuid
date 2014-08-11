@@ -187,7 +187,7 @@ export ac_cv_func_getifaddrs=yes
 export ac_cv_func_gettimeofday=yes
 %endif
 
-%configure2_5x \
+%configure \
 	--includedir=%{_includedir}/ossp-uuid \
 %if %{with postgresql}
 	--with-pgsql \
