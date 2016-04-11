@@ -1,5 +1,5 @@
 # needed for rpm53
-%bcond_with bootstrap
+%bcond_without bootstrap
 %bcond_with crosscompile
 
 %if %{with bootstrap}
@@ -27,12 +27,13 @@ Patch1:		uuid-1.6.2-fix-php-install.patch
 Patch2:		uuid-1.6.2-fix-php-link.patch
 Patch3:		uuid-1.6.2-ossp.patch
 Patch4:		uuid-1.6.2-fix-php-test-module-loading.patch
-Patch5:		uuid-1.6.2-php-54x.patch
+Patch5:		uuid-1.6.2-php54.patch
 #We don't want anything stripped
 #Upstream-Status: Inappropriate [no upstream]
 #The project appears to no longer be accepting changes.
 Patch6:		uuid-nostrip.patch
 Patch7:		uuid-aarch64.patch
+Patch8:		uuid-ldflags.patch
 %if %{with postgresql}
 BuildRequires:	postgresql-devel
 %endif
@@ -201,7 +202,8 @@ export ac_cv_func_gettimeofday=yes
 	--with-cxx \
 	--with-dce \
 	--disable-static
-%make
+
+%make LDFLAGS="%{ldflags}" CFLAGS="%{optflags}" LIBTOOL=/usr/bin/libtool
 
 %check
 make check
