@@ -34,6 +34,7 @@ Patch5:		uuid-1.6.2-php54.patch
 Patch6:		uuid-nostrip.patch
 Patch7:		uuid-aarch64.patch
 Patch8:		uuid-ldflags.patch
+BuildRequires:	libtool
 %if %{with postgresql}
 BuildRequires:	postgresql-devel
 %endif
