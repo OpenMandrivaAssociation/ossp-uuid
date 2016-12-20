@@ -17,7 +17,7 @@
 Summary:	OSSP uuid is a ISO-C:1999 application programming interface
 Name:		ossp-uuid
 Version:	1.6.2
-Release:	22
+Release:	23
 License:	GPLv2+
 Group:		Development/C
 Url:		http://www.ossp.org/pkg/lib/uuid/
@@ -34,6 +34,7 @@ Patch5:		uuid-1.6.2-php54.patch
 Patch6:		uuid-nostrip.patch
 Patch7:		uuid-aarch64.patch
 Patch8:		uuid-ldflags.patch
+Patch9:		ossp-uuid-1.6.2-uuid-preserve-m-option-status-in-v-option-handling.patch
 BuildRequires:	libtool
 %if %{with postgresql}
 BuildRequires:	postgresql-devel
