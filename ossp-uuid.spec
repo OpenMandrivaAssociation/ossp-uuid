@@ -17,7 +17,7 @@
 Summary:	OSSP uuid is a ISO-C:1999 application programming interface
 Name:		ossp-uuid
 Version:	1.6.2
-Release:	23
+Release:	24
 License:	GPLv2+
 Group:		Development/C
 Url:		http://www.ossp.org/pkg/lib/uuid/
