@@ -179,7 +179,7 @@ and Perl Data::UUID APIs
 
 %prep
 %setup -qn uuid-%{version}
-%apply_patches
+%autopatch -p1
 
 %build
 export PHP_ACLOCAL=aclocal
