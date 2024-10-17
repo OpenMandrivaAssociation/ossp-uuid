@@ -20,7 +20,7 @@ Version:	1.6.2
 Release:	26
 License:	GPLv2+
 Group:		Development/C
-Url:		http://www.ossp.org/pkg/lib/uuid/
+Url:		https://www.ossp.org/pkg/lib/uuid/
 Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
 Patch0:		uuid-1.6.2-fix-perl-install.patch
 Patch1:		uuid-1.6.2-fix-php-install.patch
