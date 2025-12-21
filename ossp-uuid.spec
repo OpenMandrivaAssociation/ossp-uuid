@@ -35,6 +35,11 @@ Patch6:		uuid-nostrip.patch
 Patch7:		uuid-aarch64.patch
 Patch8:		uuid-ldflags.patch
 Patch9:		ossp-uuid-1.6.2-uuid-preserve-m-option-status-in-v-option-handling.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	libtool
 %if %{with postgresql}
 BuildRequires:	postgresql-devel
